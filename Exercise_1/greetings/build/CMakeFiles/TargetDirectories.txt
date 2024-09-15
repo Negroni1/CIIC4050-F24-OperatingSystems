@@ -1,3 +1,0 @@
-/Users/negroni/Documents/F24/OS/Lab2/Exercise_1/parent/build/CMakeFiles/greetings.dir
-/Users/negroni/Documents/F24/OS/Lab2/Exercise_1/parent/build/CMakeFiles/edit_cache.dir
-/Users/negroni/Documents/F24/OS/Lab2/Exercise_1/parent/build/CMakeFiles/rebuild_cache.dir
