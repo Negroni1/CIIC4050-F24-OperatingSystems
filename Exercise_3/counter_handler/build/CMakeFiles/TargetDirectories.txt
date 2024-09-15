@@ -1,0 +1,3 @@
+/Users/negroni/Documents/F24/OS/Lab2/Exercise_3/counter_handler/build/CMakeFiles/counter_handler.dir
+/Users/negroni/Documents/F24/OS/Lab2/Exercise_3/counter_handler/build/CMakeFiles/edit_cache.dir
+/Users/negroni/Documents/F24/OS/Lab2/Exercise_3/counter_handler/build/CMakeFiles/rebuild_cache.dir

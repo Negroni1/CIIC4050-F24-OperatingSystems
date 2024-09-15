@@ -1,0 +1,3 @@
+/Users/negroni/Documents/F24/OS/Lab2/shm_with_semaphores/shm_reader/build/CMakeFiles/shm_reader.dir
+/Users/negroni/Documents/F24/OS/Lab2/shm_with_semaphores/shm_reader/build/CMakeFiles/edit_cache.dir
+/Users/negroni/Documents/F24/OS/Lab2/shm_with_semaphores/shm_reader/build/CMakeFiles/rebuild_cache.dir
