@@ -1,3 +1,0 @@
-/Users/negroni/Documents/F24/OS/Lab2/Exercise_3/infinite_counter/build/CMakeFiles/infinite_counter.dir
-/Users/negroni/Documents/F24/OS/Lab2/Exercise_3/infinite_counter/build/CMakeFiles/edit_cache.dir
-/Users/negroni/Documents/F24/OS/Lab2/Exercise_3/infinite_counter/build/CMakeFiles/rebuild_cache.dir

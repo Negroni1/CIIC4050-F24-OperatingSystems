@@ -1,3 +1,0 @@
-/Users/negroni/Documents/F24/OS/Lab2/Exercise_1/exercise_1/build/CMakeFiles/exercise_1.dir
-/Users/negroni/Documents/F24/OS/Lab2/Exercise_1/exercise_1/build/CMakeFiles/edit_cache.dir
-/Users/negroni/Documents/F24/OS/Lab2/Exercise_1/exercise_1/build/CMakeFiles/rebuild_cache.dir
