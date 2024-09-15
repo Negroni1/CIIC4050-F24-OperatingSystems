@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/sh_writer.dir/src/main.c.o -o sh_writer 

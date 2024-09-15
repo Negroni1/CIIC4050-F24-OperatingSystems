@@ -1,3 +1,0 @@
-/home/morph-ina/Documents/OS/Lab2/Exercise_4/message_queues/reciever/build/CMakeFiles/mq_receiver.dir
-/home/morph-ina/Documents/OS/Lab2/Exercise_4/message_queues/reciever/build/CMakeFiles/edit_cache.dir
-/home/morph-ina/Documents/OS/Lab2/Exercise_4/message_queues/reciever/build/CMakeFiles/rebuild_cache.dir

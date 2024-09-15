@@ -55,24 +55,21 @@ int main(int argc, char *argv[]) {
     perror("shmat failed");
     exit(EXIT_FAILURE);
   }
-    sem_unlink(SEM_PRODUCER);
-    sem_unlink(SEM_CONSUMER);
   // Write to shared memory
-  // for (int i = 0; i < 10; i++) {
-  //   sem_wait(semaphore_consumer);
-  //   printf("Writer: Writing to shared memory: ");
-  //   strcpy(data, argv[1]);
-  //   printf("%s", data);
-  //   printf("\n");
-  //   sem_post(semaphore_producer);
-  // }
-  //   sem_unlink(SEM_PRODUCER);
-  //   sem_unlink(SEM_CONSUMER);
-  // sem_close(semaphore_consumer);
-  // sem_close(semaphore_producer);
+  for (int i = 0; i < 10; i++) {
+    sem_wait(semaphore_consumer);
+    printf("Writer: Writing to shared memory: ");
+    strcpy(data, argv[1]);
+    printf("%s", data);
+    printf("\n");
+    sem_post(semaphore_producer);
+  }
+   
+  sem_close(semaphore_consumer);
+  sem_close(semaphore_producer);
 
-  // // Detach from shared memory
-  // shmdt(data);
+  // Detach from shared memory
+  shmdt(data);
 
   return 0;
 }

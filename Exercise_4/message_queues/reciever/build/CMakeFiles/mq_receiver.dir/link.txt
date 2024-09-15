@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/mq_receiver.dir/src/main.c.o -o mq_receiver 

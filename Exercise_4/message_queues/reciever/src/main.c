@@ -9,10 +9,15 @@
 #define MAX_SIZE 1024
 #define MSG_STOP "exit"
 
+/**
+ * The program creates a message queue, receives integer messages until a stop message is
+ * received, calculates the sum of the received values, and then closes and unlinks the message queue.
+ */
 int main() {
   mqd_t mq;
   char buffer[MAX_SIZE];
   ssize_t bytes_read;
+
   long long sum = 0;
 
   struct mq_attr attr;
@@ -38,10 +43,8 @@ int main() {
       break;
     }
     if (bytes_read != -1) {
-     buffer[bytes_read] = '\0';
-     
-      int value = *((int *)buffer); 
-        
+      buffer[bytes_read] = '\0';
+      int value = *((int*)buffer);
       sum += value;
     }
   }

@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/mq_sender.dir/src/main.c.o -o mq_sender 

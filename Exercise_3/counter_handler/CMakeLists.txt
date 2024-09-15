@@ -8,4 +8,5 @@ project(counter_handler)
 include_directories(include)
 # Add the executable
 add_executable(counter_handler
-    src/main.c)
+    src/main.c
+    src/functions.c)

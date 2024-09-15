@@ -60,29 +60,27 @@ int main() {
   }
 
   // Read from shared memory
-    sem_unlink(SEM_PRODUCER);
+  while (1) {
+    sem_wait(semaphore_producer);
+    if (strlen(data) > 0) {
+      printf("Reader: Reading from shared memory: %s\n", data);
+      data[0] = 0;
+    }
+    sum++;
+    sem_post(semaphore_consumer);
+  }
+  printf("Total sum: %d", sum);
+
+      sem_unlink(SEM_PRODUCER);
     sem_unlink(SEM_CONSUMER);
-  // while (1) {
-  //   sem_wait(semaphore_producer);
-  //   if (strlen(data) > 0) {
-  //     printf("Reader: Reading from shared memory: %s\n", data);
-  //     data[0] = 0;
-  //   }
-  //   sum++;
-  //   sem_post(semaphore_consumer);
-  // }
-  // printf("Total sum: %d", sum);
+  sem_close(semaphore_consumer);
+  sem_close(semaphore_producer);
 
-  //     sem_unlink(SEM_PRODUCER);
-  //   sem_unlink(SEM_CONSUMER);
-  // sem_close(semaphore_consumer);
-  // sem_close(semaphore_producer);
+  // Detach from shared memory
+  shmdt(data);
 
-  // // Detach from shared memory
-  // shmdt(data);
-
-  // // Optionally, destroy the shared memory segment
-  // shmctl(shmid, IPC_RMID, NULL);
+  // Optionally, destroy the shared memory segment
+  shmctl(shmid, IPC_RMID, NULL);
 
   return 0;
 }

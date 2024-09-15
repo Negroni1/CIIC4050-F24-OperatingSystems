@@ -1,3 +1,0 @@
-/home/morph-ina/Documents/OS/Lab2/Exercise_4/message_queues/sender/build/CMakeFiles/mq_sender.dir
-/home/morph-ina/Documents/OS/Lab2/Exercise_4/message_queues/sender/build/CMakeFiles/edit_cache.dir
-/home/morph-ina/Documents/OS/Lab2/Exercise_4/message_queues/sender/build/CMakeFiles/rebuild_cache.dir

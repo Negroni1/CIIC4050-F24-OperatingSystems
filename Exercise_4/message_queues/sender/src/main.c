@@ -28,21 +28,19 @@ int main() {
     exit(1);
   }
 
-  // Send 5 messages
+  // Send 1000000 messages
   for (int i = 1; i <= 1000000; ++i) {
     snprintf(buffer, MAX_SIZE, "%d", i);
 
-    while (mq_send(mq, (const char *)&i, sizeof(int), 0) == -1) {
-    //   perror("mq_send");
-    }
+    while (mq_send(mq, (const char*)&i, sizeof(int), 0) == -1)
+      ;
     printf("\rSender: %s", buffer);
     fflush(stdout);  // Ensure the output is printed immediately
-    // usleep(100000);
   }
   printf("\n");
 
   // Send a stop message to the receiver
-  if (mq_send(mq, MSG_STOP,strlen(MSG_STOP) + 1, 0) == -1) {
+  if (mq_send(mq, MSG_STOP, strlen(MSG_STOP) + 1, 0) == -1) {
     perror("mq_send");
     exit(1);
   }

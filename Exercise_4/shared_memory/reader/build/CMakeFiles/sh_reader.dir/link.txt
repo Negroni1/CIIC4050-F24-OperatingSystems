@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/sh_reader.dir/src/main.c.o -o sh_reader 

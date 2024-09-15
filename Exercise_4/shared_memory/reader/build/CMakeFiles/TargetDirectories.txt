@@ -1,3 +1,0 @@
-/home/morph-ina/Documents/OS/Lab2/Exercise_4/shared_memory/reader/build/CMakeFiles/sh_reader.dir
-/home/morph-ina/Documents/OS/Lab2/Exercise_4/shared_memory/reader/build/CMakeFiles/edit_cache.dir
-/home/morph-ina/Documents/OS/Lab2/Exercise_4/shared_memory/reader/build/CMakeFiles/rebuild_cache.dir

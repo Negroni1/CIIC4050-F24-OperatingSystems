@@ -26,7 +26,7 @@ int main() {
     perror("mq_open");
     exit(1);
   }
-
+ 
   // Send 5 messages
   for (int i = 1; i <= 1000000; ++i) {
     snprintf(buffer, MAX_SIZE, "Message %d", i);

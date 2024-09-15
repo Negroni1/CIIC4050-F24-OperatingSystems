@@ -2,13 +2,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-/*
- Make another program that creates three children using fork(). Each child will
- print the message “I’m a child, and my id is: <pid>” before creating two more
- children and waiting for them to end. The children of the child processes must
- use the exec() function to invoke the greetings program.*
- *
-*/
+/**
+ * The program creates multiple child processes, each of which spawns two grandchild processes that
+ * execute a separate program called "greetings".
+ */
 int main() {
   pid_t id_child;
   int childs = 0;
@@ -20,7 +17,6 @@ int main() {
       while (n < 2) {
         pid_t id_grand_child = fork();
         if (id_grand_child == 0) {
-
           if (execl("./greetings", "./greetings", NULL) == -1) {
             perror("Error launching child");
             exit(EXIT_FAILURE);
