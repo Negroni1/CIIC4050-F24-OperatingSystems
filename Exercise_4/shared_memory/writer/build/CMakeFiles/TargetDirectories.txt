@@ -1,0 +1,3 @@
+/home/morph-ina/Documents/OS/Lab2/Exercise_4/shared_memory/writer/build/CMakeFiles/sh_writer.dir
+/home/morph-ina/Documents/OS/Lab2/Exercise_4/shared_memory/writer/build/CMakeFiles/edit_cache.dir
+/home/morph-ina/Documents/OS/Lab2/Exercise_4/shared_memory/writer/build/CMakeFiles/rebuild_cache.dir
