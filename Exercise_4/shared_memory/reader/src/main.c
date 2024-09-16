@@ -7,7 +7,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define SHM_SIZE 1000000 * sizeof(int)  // Shared memory size
+#define SHM_SIZE 1000001 * sizeof(int)  // Shared memory size
 
 #define SEM_PRODUCER "/producer"
 #define SEM_CONSUMER "/consumer"
@@ -27,7 +27,7 @@ int main() {
   key = ftok("/tmp", 65);
 
   sem_t* semaphore_producer = sem_open(SEM_PRODUCER, O_CREAT, 0666, 0);
-  sem_t* semaphore_consumer = sem_open(SEM_CONSUMER, O_CREAT, 0666, 0);
+  sem_t* semaphore_consumer = sem_open(SEM_CONSUMER, O_CREAT, 0666, 1);
 
   // Locate the shared memory segment
   shmid = shmget(key, SHM_SIZE, 0666 | IPC_CREAT);
@@ -53,6 +53,8 @@ int main() {
   // Close the semaphores
   sem_close(semaphore_consumer);
   sem_close(semaphore_producer);
+  sem_unlink(SEM_CONSUMER);
+  sem_unlink(SEM_PRODUCER);
 
   // Detach from shared memory
   shmdt(data);

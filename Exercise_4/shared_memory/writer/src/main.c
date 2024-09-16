@@ -7,7 +7,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define SHM_SIZE 1000000 * sizeof(int)  // Shared memory size
+#define SHM_SIZE 1000001 * sizeof(int)  // Shared memory size
 
 #define SEM_PRODUCER "/producer"
 #define SEM_CONSUMER "/consumer"
@@ -24,8 +24,8 @@ int main() {
   // Create a unique key for the shared memory
   key = ftok("/tmp", 65);
 
-  sem_t* semaphore_producer = sem_open(SEM_PRODUCER, O_CREAT, 0666, 0);
-  sem_t* semaphore_consumer = sem_open(SEM_CONSUMER, O_CREAT, 0666, 1);
+  sem_t* semaphore_producer = sem_open(SEM_PRODUCER, O_CREAT, 0666, 1);
+  sem_t* semaphore_consumer = sem_open(SEM_CONSUMER, O_CREAT, 0666, 0);
 
   // Create a shared memory segment
   shmid = shmget(key, SHM_SIZE, 0666 | IPC_CREAT);
@@ -37,15 +37,16 @@ int main() {
   for (int i = 0; i <= 1000000; i++) {
     sem_wait(semaphore_consumer);  // Wait for consumer to be ready
     data[i] = i;                   // Write integer to shared memory
+    sem_post(semaphore_producer);  // Signal producer has written
     printf("\rWriter: Writing %d to shared memory.", i);
     fflush(stdout);                // Ensure the output is printed immediately
-    sem_post(semaphore_producer);  // Signal producer has written
   }
   printf("\n");
   // Close semaphores
   sem_close(semaphore_consumer);
   sem_close(semaphore_producer);
-
+  sem_unlink(SEM_CONSUMER);
+  sem_unlink(SEM_PRODUCER);
   // Detach from shared memory
   shmdt(data);
 
