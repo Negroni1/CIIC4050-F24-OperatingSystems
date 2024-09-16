@@ -17,7 +17,7 @@ int main() {
       while (n < 2) {
         pid_t id_grand_child = fork();
         if (id_grand_child == 0) {
-          if (execl("./greetings", "./greetings", NULL) == -1) {
+          if (execl("../greetings", "../greetings", NULL) == -1) {
             perror("Error launching child");
             exit(EXIT_FAILURE);
           }

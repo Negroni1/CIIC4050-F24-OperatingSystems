@@ -82,7 +82,7 @@ void execute_parsed_commands(char*** execute_commands, int command_count) {
     if (pid == 0) {  // Child process
       execvp(execute_commands[i][0],
              execute_commands[i]);  // Pass command to execvp
-      // perror("exec failed");        // Print the error if exec fails
+      perror("exec failed");        // Print the error if exec fails
       exit(EXIT_FAILURE);
     } else if (pid > 0) {
       wait(NULL);  // Parent waits for the child to finish

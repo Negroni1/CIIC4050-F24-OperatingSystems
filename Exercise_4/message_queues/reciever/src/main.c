@@ -4,8 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <time.h>
+#include <unistd.h>
 
-#define QUEUE_NAME "/test_queue"
+#define QUEUE_NAME "/queue"
 #define MAX_SIZE 1024
 #define MSG_STOP "exit"
 
@@ -19,7 +21,7 @@ int main() {
   ssize_t bytes_read;
 
   long long sum = 0;
-
+  time_t start_time, finish_time;
   struct mq_attr attr;
 
   // Initialize the queue attributes
@@ -35,6 +37,7 @@ int main() {
     exit(1);
   }
 
+  int timer_start = 0;
   // Receive messages
   while (1) {
     bytes_read = mq_receive(mq, buffer, MAX_SIZE, NULL);
@@ -46,10 +49,20 @@ int main() {
       buffer[bytes_read] = '\0';
       int value = *((int*)buffer);
       sum += value;
+
+      if (!timer_start) {
+        time(&start_time);  // Record start time
+        timer_start = 1;
+      }
     }
   }
 
   printf("Receiver: Sum of received values = %llu\n", sum);
+  time(&finish_time);
+  printf(
+      "Receiver: Time from first message received to completion: %f seconds\n",
+      difftime(finish_time, start_time));
+
   // Close and unlink the message queue
   if (mq_close(mq) == -1) {
     perror("mq_close");

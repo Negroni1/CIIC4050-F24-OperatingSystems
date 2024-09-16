@@ -10,18 +10,24 @@ void show_menu(pid_t pids[], int num_pids) {
   int option, target_pid_index;
 
   while (1) {
+    if (num_pids - 1 < 0) {
+      printf(
+          "No infinite-counter processes alive\nExiting counter_handler...\n");
+      break;
+    }
     printf("\n--- Counter Handler Menu ---\n");
     printf("Select an action:\n");
     printf("1. Stop a specific counter process\n");
     printf("2. Continue a specific counter process\n");
     printf("3. Change counting direction of a specific counter process\n");
-    printf("4. Kill a specific counter process\n");
-    printf("5. Exit\n");
+    printf("4. Reset Counter\n");
+    printf("5. Kill a specific counter process\n");
+    printf("6. Exit\n");
     printf("-----------------------------\n");
     printf("Enter your choice: ");
     scanf("%d", &option);
 
-    if (option == 5) {
+    if (option == 6) {
       printf("Exiting counter_handler...\n");
       break;
     }
@@ -59,9 +65,16 @@ void show_menu(pid_t pids[], int num_pids) {
         break;
 
       case 4:
+        // Send SIGUSR2 to reverse the counting direction
+        kill(target_pid, SIGUSR1);
+        printf("Reset counter for process with PID %d.\n", target_pid);
+        break;
+
+      case 5:
         // Send SIGKILL to kill the process
         kill(target_pid, SIGKILL);
         printf("Process with PID %d killed.\n", target_pid);
+        num_pids--;
         break;
     }
   }

@@ -4,9 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <time.h>
 #include <unistd.h>
 
-#define QUEUE_NAME "/test_queue"
+#define QUEUE_NAME "/queue"
 #define MAX_SIZE 1024
 #define MSG_STOP "exit"
 

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
+#include <time.h>
 #include <unistd.h>
 
 #define SHM_SIZE 1000000 * sizeof(int)  // Shared memory size
@@ -19,6 +20,8 @@ int main() {
   int shmid;
   int* data;
   long long sum = 0;
+
+  time_t start_time, finish_time;
 
   // Create a unique key for the shared memory
   key = ftok("/tmp", 65);
@@ -37,9 +40,15 @@ int main() {
     sem_wait(semaphore_producer);  // Wait for the producer to write data
     sum += data[i];                // Sum up the value
     sem_post(semaphore_consumer);
+    if (i == 0) {
+      time(&start_time);
+    }
   }
+  time(&finish_time);
 
   printf("Reader: Sum of all values in shared memory = %lld\n", sum);
+  printf("Reader: Time from first byte written to sum calculated: %f seconds\n",
+         difftime(finish_time, start_time));
 
   // Close the semaphores
   sem_close(semaphore_consumer);

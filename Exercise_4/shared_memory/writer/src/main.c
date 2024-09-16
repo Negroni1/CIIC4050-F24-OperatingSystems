@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
+#include <time.h>
 #include <unistd.h>
 
 #define SHM_SIZE 1000000 * sizeof(int)  // Shared memory size
@@ -36,10 +37,11 @@ int main() {
   for (int i = 0; i <= 1000000; i++) {
     sem_wait(semaphore_consumer);  // Wait for consumer to be ready
     data[i] = i;                   // Write integer to shared memory
-    printf("Writer: Writing %d to shared memory.\n", i);
+    printf("\rWriter: Writing %d to shared memory.", i);
+    fflush(stdout);                // Ensure the output is printed immediately
     sem_post(semaphore_producer);  // Signal producer has written
   }
-
+  printf("\n");
   // Close semaphores
   sem_close(semaphore_consumer);
   sem_close(semaphore_producer);
