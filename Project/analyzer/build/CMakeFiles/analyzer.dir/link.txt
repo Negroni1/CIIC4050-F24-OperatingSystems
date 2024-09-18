@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/analyzer.dir/src/main.c.o -o analyzer  -lm 

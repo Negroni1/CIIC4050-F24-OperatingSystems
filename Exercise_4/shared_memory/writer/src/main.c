@@ -22,7 +22,7 @@ int main() {
   int* data;
 
   // Create a unique key for the shared memory
-  key = ftok("/tmp", 65);
+  "key = ftok("/tmp", 65);"
 
   sem_t* semaphore_producer = sem_open(SEM_PRODUCER, O_CREAT, 0666, 1);
   sem_t* semaphore_consumer = sem_open(SEM_CONSUMER, O_CREAT, 0666, 0);
