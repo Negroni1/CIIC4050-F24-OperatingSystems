@@ -1,70 +1,95 @@
-#include <fcntl.h>  // For O_* constants
-#include <semaphore.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <semaphore.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
-#include <time.h>
+#include <fcntl.h>
 #include <unistd.h>
+#include <errno.h>
 
-#define SHM_SIZE 1000001 * sizeof(int)  // Shared memory size
+#define SHM_SIZE (2000 * sizeof(double))  // Shared memory size
+#define SEM_GENERATOR "/generator"
+#define SEM_ANALYZER "/analyzer"
+#define SEM_PLOT "/plot"
 
-#define SEM_ANALYZER "/plot"
-#define SEM_PLOT "/analyzer-plot"
-
-/**
- * The program reads and sums up values from a shared memory segment using semaphores
- */
 int main() {
-  key_t key;
-  int shmid;
-  int* data;
-  long long sum = 0;
+    key_t key;
+    int shmid;
+    double* data;
 
-  time_t start_time, finish_time;
+    key = ftok("/tmp", 65);
 
-  // Create a unique key for the shared memory
-  key = ftok("/tmp", 65);
+    // Open semaphores
+    sem_t* semaphore_analyzer = sem_open(SEM_ANALYZER, 0);
+    if (semaphore_analyzer == SEM_FAILED) {
+        perror("sem_open failed for analyzer");
+        exit(EXIT_FAILURE);
+    }
 
-  sem_t* semaphore_analyzer = sem_open(SEM_ANALYZER, O_CREAT, 0666, 0);
-  sem_t* semaphore_plot = sem_open(SEM_PLOT, O_CREAT, 0666, 1);
+    sem_t* semaphore_plot = sem_open(SEM_PLOT, 0);
+    if (semaphore_plot == SEM_FAILED) {
+        perror("sem_open failed for plot");
+        exit(EXIT_FAILURE);
+    }
 
-  // Locate the shared memory segment
-  shmid = shmget(key, SHM_SIZE, 0666 | IPC_CREAT);
+    shmid = shmget(key, SHM_SIZE, 0666);
+    if (shmid == -1) {
+        perror("shmget failed");
+        exit(EXIT_FAILURE);
+    }
 
-  // Map the block into the process address space
-  data = (int*)shmat(shmid, NULL, 0);
+    data = (double*)shmat(shmid, NULL, 0);
+    if (data == (void*)-1) {
+        perror("shmat failed");
+        exit(EXIT_FAILURE);
+    }
 
-  FILE *gnuplotPipe = popen("gnuplot -persistent", "w");
-  // Gnuplot configuration
-    fprintf(gnuplotPipe, "set title 'Real-Time Data Plot'\n");
-    fprintf(gnuplotPipe, "set xlabel 'Index'\n");
-    fprintf(gnuplotPipe, "set ylabel 'Value'\n");
-    fprintf(gnuplotPipe, "plot '-' with lines\n");
-  // Read and sum up from shared memory
-  for (int i = 0; i <= 1000000; i++) {
-    sem_wait(semaphore_analyzer);  // Wait for the producer to write data
-    
-    fprintf(gnuplotPipe, "%d %d\n", i, data[i]);  // Send index and data value
-    fflush(gnuplotPipe);  // Flush to ensure real-time plotting             // Sum up the value
-    usleep(1000);  // 1 millisecond delay
+    printf("Starting plot\n");
+    for (int i = 0; i < 1000; i++) {
+        // Wait for analyzer to process data
+        if (sem_wait(semaphore_plot) == -1) {
+            perror("sem_wait failed for plot");
+            exit(EXIT_FAILURE);
+        }
 
-    sem_post(semaphore_plot);
-    
-  }
-  time(&finish_time);
+        // Print the data
+        printf("Number: %f - Sin: %f\n", data[i], data[i + 1000]);
 
-  // Close the semaphores
-  sem_close(semaphore_analyzer);
-  sem_close(semaphore_plot);
-  sem_unlink(SEM_PLOT);
-  sem_unlink(SEM_ANALYZER);
+        // Optional: Signal generator if needed
+        // if (sem_post(semaphore_generator) == -1) {
+        //     perror("sem_post failed for generator");
+        //     exit(EXIT_FAILURE);
+        // }
+    }
+    printf("Finished plot\n");
 
-  // Detach from shared memory
-  shmdt(data);
+    // Close semaphores
+    if (sem_close(semaphore_analyzer) == -1) {
+        perror("sem_close failed for analyzer");
+        exit(EXIT_FAILURE);
+    }
+    if (sem_close(semaphore_plot) == -1) {
+        perror("sem_close failed for plot");
+        exit(EXIT_FAILURE);
+    }
 
-  // Optionally, destroy the shared memory segment if done
-  shmctl(shmid, IPC_RMID, NULL);
+    // Unlink semaphores (uncomment if you want to remove semaphores)
+    // if (sem_unlink(SEM_GENERATOR) == -1) {
+    //     perror("sem_unlink failed for generator");
+    // }
+    // if (sem_unlink(SEM_ANALYZER) == -1) {
+    //     perror("sem_unlink failed for analyzer");
+    // }
+    if (sem_unlink(SEM_PLOT) == -1) {
+        perror("sem_unlink failed for plot");
+    }
 
-  return 0;
+    // Detach shared memory
+    if (shmdt(data) == -1) {
+        perror("shmdt failed");
+        exit(EXIT_FAILURE);
+    }
+
+    return 0;
 }
+

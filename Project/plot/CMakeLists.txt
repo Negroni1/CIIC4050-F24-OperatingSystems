@@ -9,3 +9,4 @@ include_directories(include)
 # Add the executable
 add_executable(plot
     src/main.c)
+# target_link_libraries(plot gnuplot-iostream)

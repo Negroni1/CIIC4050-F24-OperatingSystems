@@ -1,0 +1,3 @@
+/home/morph-ina/Documents/OS/CIIC4050-F24-OperatingSystems/Project/analyzer/build/CMakeFiles/analyzer.dir
+/home/morph-ina/Documents/OS/CIIC4050-F24-OperatingSystems/Project/analyzer/build/CMakeFiles/edit_cache.dir
+/home/morph-ina/Documents/OS/CIIC4050-F24-OperatingSystems/Project/analyzer/build/CMakeFiles/rebuild_cache.dir

@@ -1,61 +1,103 @@
-#include <fcntl.h>  // For O_* constants
-#include <semaphore.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <semaphore.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
-#include <time.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <math.h>
+#include <errno.h>
 
-#define SHM_SIZE 1000001 * sizeof(int)  // Shared memory size
-
+#define SHM_SIZE (2000 * sizeof(double))  // Shared memory size
+#define SEM_GENERATOR "/generator"
 #define SEM_ANALYZER "/analyzer"
 #define SEM_PLOT "/plot"
 
-/**
- * The program reads and sums up values from a shared memory segment using semaphores
- */
 int main() {
-  key_t key;
-  int shmid;
-  int* data;
-  long long sum = 0;
+    key_t key;
+    int shmid;
+    double* data;
 
-  time_t start_time, finish_time;
+    key = ftok("/tmp", 65);
 
-  // Create a unique key for the shared memory
-  key = ftok("/tmp", 65);
+    // Open semaphores
+    sem_t* semaphore_generator = sem_open(SEM_GENERATOR, 0);
+    if (semaphore_generator == SEM_FAILED) {
+        perror("sem_open failed for generator");
+        exit(EXIT_FAILURE);
+    }
 
-  sem_t* semaphore_analyzer = sem_open(SEM_ANALYZER, O_CREAT, 0666, 0);
-  sem_t* semaphore_plot = sem_open(SEM_PLOT, O_CREAT, 0666, 1);
+    sem_t* semaphore_analyzer = sem_open(SEM_ANALYZER, 0);
+    if (semaphore_analyzer == SEM_FAILED) {
+        perror("sem_open failed for analyzer");
+        exit(EXIT_FAILURE);
+    }
 
-  // Locate the shared memory segment
-  shmid = shmget(key, SHM_SIZE, 0666 | IPC_CREAT);
+    sem_t* semaphore_plot = sem_open(SEM_PLOT, 0);
+    if (semaphore_plot == SEM_FAILED) {
+        perror("sem_open failed for plot");
+        exit(EXIT_FAILURE);
+    }
 
-  // Map the block into the process address space
-  data = (int*)shmat(shmid, NULL, 0);
+    shmid = shmget(key, SHM_SIZE, 0666);
+    if (shmid == -1) {
+        perror("shmget failed");
+        exit(EXIT_FAILURE);
+    }
 
-  // Read and sum up from shared memory
-  for (int i = 0; i <= 2000; i++) {
-    sem_wait(semaphore_analyzer);  // Wait for the producer to write data
-    data[i] = sin(data[i]);
-    printf("Analyzer: Sine %f", sin(data[i]));
-    sem_post(semaphore_plot);
-  }
-  time(&finish_time);
+    data = (double*)shmat(shmid, NULL, 0);
+    if (data == (void*)-1) {
+        perror("shmat failed");
+        exit(EXIT_FAILURE);
+    }
 
-  // Close the semaphores
-  sem_close(semaphore_analyzer);
-  sem_close(semaphore_plot);
-  sem_unlink(SEM_PLOT);
-  sem_unlink(SEM_ANALYZER);
+    int pos = 0;  // Correct starting position for analysis
+    printf("Starting analyzing\n");
+    for (int i = 999; i >= 0; i--) {
+        if (sem_wait(semaphore_generator) == -1) {
+            perror("sem_wait failed for generator");
+            exit(EXIT_FAILURE);
+        }
 
-  // Detach from shared memory
-  shmdt(data);
+        if (pos < 0 || pos >= 1000) {  // Ensure correct index range
+            fprintf(stderr, "Index out of bounds: %d\n", pos);
+            exit(EXIT_FAILURE);
+        }
 
-  // Optionally, destroy the shared memory segment if done
-  shmctl(shmid, IPC_RMID, NULL);
+        data[i + 1000] = sin(data[pos]);  // Compute sine and store in second half
+        printf("Analyzer: Computed sine %f\n", data[i + 1000]);
+        pos++;
 
-  return 0;
+        if (sem_post(semaphore_analyzer) == -1) {
+            perror("sem_post failed for analyzer");
+            exit(EXIT_FAILURE);
+        }
+        if (sem_post(semaphore_plot) == -1) {
+            perror("sem_post failed for plot");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    printf("Finished analyzing\n");
+
+    if (sem_close(semaphore_generator) == -1) {
+        perror("sem_close failed for generator");
+        exit(EXIT_FAILURE);
+    }
+    if (sem_close(semaphore_analyzer) == -1) {
+        perror("sem_close failed for analyzer");
+        exit(EXIT_FAILURE);
+    }
+    if (sem_close(semaphore_plot) == -1) {
+        perror("sem_close failed for plot");
+        exit(EXIT_FAILURE);
+    }
+
+    if (shmdt(data) == -1) {
+        perror("shmdt failed");
+        exit(EXIT_FAILURE);
+    }
+
+    return 0;
 }
+

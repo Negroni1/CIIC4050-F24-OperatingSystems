@@ -1,0 +1,3 @@
+/home/morph-ina/Documents/OS/CIIC4050-F24-OperatingSystems/Project/generator/build/CMakeFiles/generator.dir
+/home/morph-ina/Documents/OS/CIIC4050-F24-OperatingSystems/Project/generator/build/CMakeFiles/edit_cache.dir
+/home/morph-ina/Documents/OS/CIIC4050-F24-OperatingSystems/Project/generator/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,3 @@
+/home/morph-ina/Documents/OS/CIIC4050-F24-OperatingSystems/Project/plot/build/CMakeFiles/plot.dir
+/home/morph-ina/Documents/OS/CIIC4050-F24-OperatingSystems/Project/plot/build/CMakeFiles/edit_cache.dir
+/home/morph-ina/Documents/OS/CIIC4050-F24-OperatingSystems/Project/plot/build/CMakeFiles/rebuild_cache.dir
