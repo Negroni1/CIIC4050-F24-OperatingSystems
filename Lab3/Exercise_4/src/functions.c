@@ -5,13 +5,6 @@
 
 #include "functions.h"
 
-int dx, dy;
-int row, col;
-int counter_val;
-int stop_threads;
-pthread_mutex_t mutex;
-BallPosition ball_pos;
-
 void* UpdateBallPosition(void* arg) {
   while (!stop_threads) {
     pthread_mutex_lock(&mutex);
