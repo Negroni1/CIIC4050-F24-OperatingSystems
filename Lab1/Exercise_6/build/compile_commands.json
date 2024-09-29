@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/Users/negroni/Documents/F24/OS/Lab_0/Exercise_6/build",
+  "command": "/usr/bin/clang  -I/Users/negroni/Documents/F24/OS/Lab_0/Exercise_6/include -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk -o CMakeFiles/exercise_6.dir/src/main.c.o -c /Users/negroni/Documents/F24/OS/Lab_0/Exercise_6/src/main.c",
+  "file": "/Users/negroni/Documents/F24/OS/Lab_0/Exercise_6/src/main.c",
+  "output": "CMakeFiles/exercise_6.dir/src/main.c.o"
+},
+{
+  "directory": "/Users/negroni/Documents/F24/OS/Lab_0/Exercise_6/build",
+  "command": "/usr/bin/clang  -I/Users/negroni/Documents/F24/OS/Lab_0/Exercise_6/include -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk -o CMakeFiles/exercise_6.dir/src/functions.c.o -c /Users/negroni/Documents/F24/OS/Lab_0/Exercise_6/src/functions.c",
+  "file": "/Users/negroni/Documents/F24/OS/Lab_0/Exercise_6/src/functions.c",
+  "output": "CMakeFiles/exercise_6.dir/src/functions.c.o"
+}
+]
