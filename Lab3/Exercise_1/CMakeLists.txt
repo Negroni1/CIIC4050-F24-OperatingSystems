@@ -8,5 +8,6 @@ project(Exercise_1)
 include_directories(include)
 #Add the executable
 add_executable(exercise_1 
-    src/main.c)
+    src/main.c
+    src/functions.c)
 target_link_libraries(exercise_1 m)
