@@ -2,71 +2,38 @@
 #define FUNCTIONS_H
 
 #include <pthread.h>
+#include <sys/time.h>
+
+#define SIZE_MAX 1000000
+#define AMOUNT_THREADS 5
+#define SIZE_SEGMENT 200000
 
 pthread_mutex_t mutex;
-
-double result_1;
-double result_2;
-double result_3;
-double result_4;
-double result_5;
-
-struct timeval time1, time2, time3, time4, time5;
-
 pthread_cond_t cond_threads_done;
 
-double array[1000000];
+double result[AMOUNT_THREADS];
+struct timeval time_taken[AMOUNT_THREADS];
+
+double array[SIZE_MAX];
 int completed_threads;
 
 /**
- * The function calculates the elapsed time in milliseconds between two timeval structures.
+ * @brief Calculates the elapsed time in milliseconds between two timeval structures.
  * 
- * @param start The `struct timeval` type is commonly used in C programming for representing time
- * values. It typically includes two members: `tv_sec` for seconds and `tv_usec` for microseconds.
- * @param end The `struct timeval` parameters `start` and `end` represent points in time. The `tv_sec`
- * member represents the number of seconds since the epoch, and the `tv_usec` member represents the
- * number of microseconds within the current second.
- * 
- * @return The function `get_elapsed_time` returns the elapsed time in milliseconds between the `start`
- * and `end` time values provided as arguments.
+ * @param start Start time.
+ * @param end End time.
+ * @return Elapsed time in milliseconds.
  */
-long get_elapsed_time(struct timeval start, struct timeval end);
+long GetElapsedTime(struct timeval start, struct timeval end);
 
 /**
- * The function CalculateSegment1 calculates the sum of elements in a segment of an array and signals
- * completion using mutex and condition variables in a multi-threaded environment.
+ * @brief Function executed by each thread to calculate the sum of a segment of the array.
  */
-void* CalculateSegment1(void* arg);
+void* CalculateSegment(void* arg);
 
 /**
- * The function CalculateSegment2 calculates the sum of elements in a specific segment of an array and
- * signals completion using mutex and condition variables in a multi-threaded environment.
- */
-void* CalculateSegment2(void* arg);
-
-/**
- * The function CalculateSegment3 calculates the sum of elements in a specific segment of an array and
- * signals completion using mutex and condition variables in a multi-threaded environment.
- */
-void* CalculateSegment3(void* arg);
-
-/**
- * The function CalculateSegment4 calculates the sum of elements in a specific segment of an array and
- * signals completion using mutex and condition variables.
- */
-void* CalculateSegment4(void* arg);
-
-/**
- * The function CalculateSegment5 calculates the sum of elements in a specific segment of an array and
- * signals completion using mutex and condition variables in a multi-threaded environment.
- */
-void* CalculateSegment5(void* arg);
-
-/**
- * The Total function calculates and prints the sum of five result variables after waiting for a
- * condition signal.
+ * @brief Function to calculate and print the total sum of all segments after all threads are done.
  */
 void* Total(void* arg);
-
 
 #endif  // FUNCTIONS_H

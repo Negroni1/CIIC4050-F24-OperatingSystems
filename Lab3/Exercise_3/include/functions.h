@@ -8,17 +8,17 @@
 
 #define BUFFER_SIZE 10000
 
-extern pthread_mutex_t mutex;
+pthread_mutex_t mutex;
 
-extern int input_buffer[BUFFER_SIZE];
-extern int n_read_values;
-extern double processed_buffer[BUFFER_SIZE];
-extern int n_processed_values;
+int input_buffer[BUFFER_SIZE];
+int n_read_values;
+double processed_buffer[BUFFER_SIZE];
+int n_processed_values;
 
-extern struct timeval time_create_file;
-extern struct timeval time_read_file;
-extern struct timeval time_process;
-extern struct timeval time_write_file;
+struct timeval time_create_file;
+struct timeval time_read_file;
+struct timeval time_process;
+struct timeval time_write_file;
 
 /**
  * @brief Calculates elapsed time between two time intervals.

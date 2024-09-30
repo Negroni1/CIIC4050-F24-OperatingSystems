@@ -17,13 +17,12 @@ void* UpdateBallPosition(void* arg) {
 
     pthread_mutex_lock(&mutex);
     getmaxyx(stdscr, row, col);
-    mvprintw(ball->y, ball->x, " ");  // Erase old position
+    mvprintw(ball->y, ball->x, " ");
     refresh();
 
     ball->x += ball->dx;
     ball->y += ball->dy;
 
-    // Check for collision with the window boundaries
     if (ball->x >= col - 1) {
       ball->dx = -1;
     }
@@ -37,12 +36,12 @@ void* UpdateBallPosition(void* arg) {
       ball->dy = 1;
     }
 
-    mvprintw(ball->y, ball->x, "o");  // Draw the ball
+    mvprintw(ball->y, ball->x, "o");
     refresh();
 
     pthread_mutex_unlock(&mutex);
 
-    usleep(100000);  // Sleep for 100ms to slow down ball movement
+    usleep(100000);
   }
 
   return NULL;
@@ -58,7 +57,7 @@ void* UpdateCounter(void* arg) {
 
     pthread_mutex_unlock(&mutex);
 
-    usleep(1000000);  // Sleep for 1 second to slow down counter increment
+    usleep(1000000);
   }
 
   return NULL;

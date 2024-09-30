@@ -1,4 +1,4 @@
-#include <curses.h> /* ncurses.h includes stdio.h */
+#include <curses.h>
 #include <pthread.h>
 #include <string.h>
 #include <unistd.h>
@@ -17,9 +17,6 @@ int main() {
   ball_pos.y = 20;
 
   dx = dy = 1;
-
-  // Initialize mutex
-  pthread_mutex_init(&mutex, NULL);
 
   pthread_t id1, id2;
   pthread_create(&id1, NULL, UpdateBallPosition, NULL);
@@ -45,15 +42,11 @@ int main() {
     }
   }
 
-  // Join the threads
   pthread_join(id1, NULL);
   pthread_join(id2, NULL);
 
   getch();
   endwin();
-
-  // Destroy the mutex
-  pthread_mutex_destroy(&mutex);
 
   return 0;
 }

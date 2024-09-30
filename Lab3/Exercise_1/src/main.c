@@ -1,12 +1,11 @@
 #include <pthread.h>
-#include <stdio.h>
-#include <unistd.h>
-
 #include "functions.h"
 
 int main() {
   pthread_t p_input;
   pthread_t p_arcsine;
+  
+  double user_number = 0;
 
   pthread_mutex_init(&mutex, NULL);
   pthread_cond_init(&p_cond_input, NULL);

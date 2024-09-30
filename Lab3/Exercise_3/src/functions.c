@@ -2,17 +2,6 @@
 #include <unistd.h>
 #include "functions.h"
 
-pthread_mutex_t mutex;
-int input_buffer[BUFFER_SIZE];
-int n_read_values = 0;
-double processed_buffer[BUFFER_SIZE];
-int n_processed_values = 0;
-
-struct timeval time_create_file;
-struct timeval time_read_file;
-struct timeval time_process;
-struct timeval time_write_file;
-
 long GetElapsedTime(struct timeval start, struct timeval end) {
   if (start.tv_sec == end.tv_sec) {
     return ((end.tv_sec - start.tv_sec) * 1000) + 
@@ -32,7 +21,7 @@ void* CreateFile(void* arg) {
   FILE* fp = fopen("data.txt", "w");
   if (fp == NULL) {
     pthread_mutex_unlock(&mutex);
-    return (void*)1;  // Return error if file cannot be opened.
+    return (void*)1; 
   }
 
   for (int i = 0; i < BUFFER_SIZE; i++) {
@@ -92,7 +81,7 @@ void* WriteFile(void* arg) {
   FILE* fp = fopen("sqrt.txt", "w");
   if (fp == NULL) {
     pthread_mutex_unlock(&mutex);
-    return NULL;  // Return if file cannot be opened.
+    return NULL;  
   }
 
   for (int i = 0; i < n_processed_values; i++) {

@@ -1,15 +1,7 @@
 #include <math.h>
 #include <pthread.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
 #include "functions.h"
-
-pthread_mutex_t mutex;
-double user_number = 0;
-pthread_cond_t p_cond_input;
-pthread_cond_t p_cond_arcsine;
 
 void* UserInput(void* arg) {
   while (1) {
