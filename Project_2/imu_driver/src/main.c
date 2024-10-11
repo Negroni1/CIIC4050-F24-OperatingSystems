@@ -16,11 +16,6 @@ int main() {
   action.sa_flags = 0;
   sigaction(SIGALRM, &action, NULL);
 
-  struct sigaction term;
-  term.sa_handler = TermHandler;
-  term.sa_flags = 0;
-  sigaction(SIGTERM, &term, NULL);
-
   struct itimerspec timer_params;
 
   timer_params.it_value.tv_sec = 0;

@@ -12,16 +12,6 @@
 void TimerHandler(int signum);
 
 /**
- * @brief Signal handler for termination signals.
- *
- * This function is called when a termination signal (e.g., SIGTERM) is received.
- * It exits the program with a status code of -1.
- *
- * @param signum The signal number that triggered the handler.
- */
-void TermHandler(int signum);
-
-/**
  * @brief Reads the last line from a file and retrieves the last state of the robot.
  *
  * This function seeks to the end of the specified file, finds the last line, 

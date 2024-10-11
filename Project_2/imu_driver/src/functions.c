@@ -12,11 +12,6 @@ void TimerHandler(int signum) {
   write_flag = 1;
 }
 
-// Signal handler for termination signals.
-void TermHandler(int signum) {
-  exit(-1);
-}
-
 // Reads the last line from a file and retrieves the last state of the robot.
 int GetLastLine() {
   FILE* fp = fopen("imu_data.txt", "r");
