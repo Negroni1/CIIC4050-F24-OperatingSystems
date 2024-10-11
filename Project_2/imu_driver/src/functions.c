@@ -7,26 +7,27 @@
 #include <unistd.h>
 #include "constants.h"
 
-// Global variable to indicate if data should be written to the file.
-int write_flag = 0;
-
 // Timer signal handler.
 void TimerHandler(int signum) {
   write_flag = 1;
 }
 
+// Signal handler for termination signals.
+void TermHandler(int signum) {
+  exit(-1);
+}
+
 // Reads the last line from a file and retrieves the last state of the robot.
-int GetLastLine(FILE* fp) {
+int GetLastLine() {
+  FILE* fp = fopen("imu_data.txt", "r");
+  if (fp == NULL) {
+    return -1;
+  }
   char line[256];
   long pos;
 
   fseek(fp, 0, SEEK_END);
   pos = ftell(fp);
-
-  if (pos == 0) {
-    return 0;
-  }
-
   while (pos > 0) {
     fseek(fp, --pos, SEEK_SET);
     if (fgetc(fp) == '\n') {
@@ -39,27 +40,24 @@ int GetLastLine(FILE* fp) {
            &robot.p_y, &robot.v_x, &robot.v_y, &robot.acc_x, &robot.acc_y);
     return 1;
   }
-
+  fclose(fp);
   return 0;
 }
 
 // Continuously writes robot data to a file.
 void WriteFile() {
-  FILE* fp = fopen("imu_data.txt", "a+");
-  if (fp == NULL) {
-    perror("Failed to open file");
-    return;
-  }
-
-  GetLastLine(fp);
+  GetLastLine();
 
   struct timespec start_time, current_time;
   clock_gettime(CLOCK_MONOTONIC, &start_time);
   start_time.tv_sec -= (long)robot.time;
 
   double p_time = 0.0;
-  fprintf(fp, "Time (s), p_x, p_y, v_x, v_y, acc_x, acc_y\n");
-
+  FILE* fp = fopen("imu_data.txt", "a");
+  if (fp == NULL) {
+    perror("Failed to open file");
+    return;
+  }
   while (1) {
     if (write_flag) {
       write_flag = 0;
@@ -78,7 +76,7 @@ void WriteFile() {
       robot.p_y += robot.v_y * time;
 
       // Write the data to the file
-      fprintf(fp, "%.2f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f\n", robot.time,
+      fprintf(fp, "\n%.2f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f", robot.time,
               robot.p_x, robot.p_y, robot.v_x, robot.v_y, robot.acc_x,
               robot.acc_y);
 

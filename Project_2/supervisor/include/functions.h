@@ -15,6 +15,17 @@ extern int g_running;
 void TimerHandler(int signum);
 
 /**
+ * @brief Signal handler for SIGCHLD to reap zombie processes.
+ *
+ * This function is called when the SIGCHLD signal is received.
+ * It calls waitpid in a loop to clean up any child processes 
+ * that have terminated, preventing zombie processes from accumulating.
+ *
+ * @param signo The signal number (SIGCHLD).
+ */
+void SigchldHandler(int signo);
+
+/**
  * @brief Gets the PID of a process by its name.
  *
  * This function uses the pgrep command to find the PID of a process 
