@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/mouse_plotter.dir/src/main.c.o -o mouse_plotter  -lncurses 
