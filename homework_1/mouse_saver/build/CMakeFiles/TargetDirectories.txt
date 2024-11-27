@@ -1,3 +1,0 @@
-/home/morph-ina/Documents/OS/CIIC4050-F24-OperatingSystems/homework_1/mouse_saver/build/CMakeFiles/mouse_saver.dir
-/home/morph-ina/Documents/OS/CIIC4050-F24-OperatingSystems/homework_1/mouse_saver/build/CMakeFiles/edit_cache.dir
-/home/morph-ina/Documents/OS/CIIC4050-F24-OperatingSystems/homework_1/mouse_saver/build/CMakeFiles/rebuild_cache.dir

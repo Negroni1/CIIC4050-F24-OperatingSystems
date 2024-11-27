@@ -1,9 +1,9 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
-FILE* file;
-int x, y;
-int reading = 1;
+extern FILE* file;
+extern int x, y;
+extern int reading;
 
 /**
  * @brief Handles reading coordinates from a file and displaying a character on the screen.

@@ -8,4 +8,5 @@ project(mouse_saver)
 include_directories(include)
 # Add the executable
 add_executable(mouse_saver
- src/main.c)
+ src/main.c
+ src/functions.c)

@@ -5,7 +5,8 @@
 #include <time.h>
 #include <unistd.h>
 
-#include "functions.c"
+#include "functions.h"
+
 int main() {
   // Setup file
   file = fopen("mouse_data.dat", "rb");

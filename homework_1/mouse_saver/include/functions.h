@@ -3,8 +3,8 @@
 
 #include <stdio.h>
 
-int fd;
-FILE* file_mouse_data = NULL;
+extern int fd;
+extern FILE* file_mouse_data;
 
 /**
  * @brief Closes resources and terminates the program.

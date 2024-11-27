@@ -8,7 +8,8 @@ project(mouse_plotter)
 include_directories(include)
 # Add the executable
 add_executable(mouse_plotter
- src/main.c)
+ src/main.c
+ src/functions.c)
 
 target_link_libraries(mouse_plotter
 	ncurses)

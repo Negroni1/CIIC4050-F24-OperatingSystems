@@ -1,4 +1,8 @@
 #include "functions.h"
+#include <stdlib.h>
+
+FILE *file_mouse_data = NULL;
+int fd;
 
 // Closes resources and terminates the program.
 void Close(int param) {
