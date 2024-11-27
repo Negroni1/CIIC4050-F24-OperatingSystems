@@ -17,7 +17,7 @@ void Close(int param) {
 }
 
 // Reads mouse event data and calculates terminal coordinates
-void ReadData() {
+void ReadData(FILE* file_mouse_data, int fd) {
   signed char data[3];
   int absolute_x = 1028 / 2;
   int absolute_y = 800 / 2;

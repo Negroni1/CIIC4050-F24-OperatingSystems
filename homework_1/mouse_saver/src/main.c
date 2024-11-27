@@ -28,7 +28,7 @@ int main() {
     return 1;
   }
 
-  ReadData();
+  ReadData(file_mouse_data, fd);
 
   close(fd);
   return 0;

@@ -35,6 +35,6 @@ void Close(int param);
  * - The terminal coordinates are displayed on the console and written as integers 
  *   to a file (`file_mouse_data`).
  */
-void ReadData();
+void ReadData(FILE* file_mouse_data, int fd);
 
 #endif  // FUNCTIONS_H
