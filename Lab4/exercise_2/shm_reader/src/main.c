@@ -8,9 +8,6 @@
 
 #define SHM_SIZE 1024 * sizeof(char)  // Shared memory size
 
-#define SEM_PRODUCER "/producer"
-#define SEM_CONSUMER "/consumer"
-
 int main() {
   key_t key;
   int shmid;
@@ -22,21 +19,6 @@ int main() {
   if (key == -1) {
     perror("ftok");
     return 1;
-  }
-
-  // sem_unlink(SEM_PRODUCER);
-  // sem_unlink(SEM_CONSUMER);
-
-  sem_t *semaphore_producer = sem_open(SEM_PRODUCER, O_CREAT, 0666, 0);
-  if (semaphore_producer == SEM_FAILED) {
-    perror("error opening producer semaphore");
-    exit(EXIT_FAILURE);
-  }
-
-  sem_t *semaphore_consumer = sem_open(SEM_CONSUMER, O_CREAT, 0666, 1);
-  if (semaphore_consumer == SEM_FAILED) {
-    perror("error opening consumer semaphore");
-    exit(EXIT_FAILURE);
   }
 
   // Locate the shared memory segment
@@ -60,16 +42,12 @@ int main() {
   // Read from shared memory
 
   while (1) {
-    sem_wait(semaphore_producer);
     if (strlen(data) > 0) {
       printf("Reader: Reading from shared memory: %s\n", data);
       data[0] = 0;
     }
-    sem_post(semaphore_consumer);
   }
 
-  sem_close(semaphore_consumer);
-  sem_close(semaphore_producer);
 
   // Detach from shared memory
   shmdt(data);

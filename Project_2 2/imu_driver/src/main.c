@@ -9,6 +9,7 @@
 #include "functions.h"
 
 int main() {
+  
   timer_t timer_id;
   timer_create(CLOCK_REALTIME, NULL, &timer_id);
   struct sigaction action;
