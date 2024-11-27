@@ -1,0 +1,3 @@
+/home/morph-ina/Documents/OS/CIIC4050-F24-OperatingSystems/Lab5/exercise_3/build/CMakeFiles/exercise_3.dir
+/home/morph-ina/Documents/OS/CIIC4050-F24-OperatingSystems/Lab5/exercise_3/build/CMakeFiles/edit_cache.dir
+/home/morph-ina/Documents/OS/CIIC4050-F24-OperatingSystems/Lab5/exercise_3/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/mouse_saver.dir/src/main.c.o -o mouse_saver 
