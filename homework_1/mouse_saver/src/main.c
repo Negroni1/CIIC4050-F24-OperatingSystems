@@ -7,28 +7,7 @@
 
 #include "functions.h"
 
-int main() {
-  // Setup Signal Handler to close the file
-  struct sigaction sa;
-  sa.sa_handler = Close;
-  sigaction(SIGINT, &sa, NULL);
-
-  // Setup binary file
-  file_mouse_data = fopen("mouse_data.dat", "wb");
-  if (!file_mouse_data) {
-    perror("Error opening binary file\n");
-    return 1;
-  }
-
-  // Setup file to  read mouse positions
-  const char* device = "/dev/input/mice";
-  int fd = open(device, O_RDONLY);
-  if (fd == -1) {
-    perror("Error opening device");
-    return 1;
-  }
-
-  // Read mouse data
+void ReadData(FILE* file_mouse_data, int fd) {
   signed char data[3];
   int absolute_x = 1028 / 2;
   int absolute_y = 800 / 2;
@@ -66,6 +45,30 @@ int main() {
       fwrite(&y, sizeof(int), 1, file_mouse_data);
     }
   }
+}
+
+int main() {
+  // Setup Signal Handler to close the file
+  struct sigaction sa;
+  sa.sa_handler = Close;
+  sigaction(SIGINT, &sa, NULL);
+
+  // Setup binary file
+  file_mouse_data = fopen("mouse_data.dat", "wb");
+  if (!file_mouse_data) {
+    perror("Error opening binary file\n");
+    return 1;
+  }
+
+  // Setup file to  read mouse positions
+  const char* device = "/dev/input/mice";
+  int fd = open(device, O_RDONLY);
+  if (fd == -1) {
+    perror("Error opening device");
+    return 1;
+  } 
+  
+  ReadData(file_mouse_data, fd);
 
   close(fd);
   return 0;
