@@ -19,21 +19,14 @@ extern FILE* file_mouse_data;
 void Close(int param);
 
 /**
- * @brief Reads mouse event data and calculates terminal coordinates.
- * 
- * This function listens for mouse events, tracks the movement and button presses,
- * calculates absolute and terminal coordinates, and writes the terminal coordinates 
- * to a file.
- * 
- * @details 
- * - The mouse data is read continuously from a file descriptor (`fd`).
- * - The absolute coordinates (`absolute_x` and `absolute_y`) are updated based 
- *   on the mouse movements and are constrained to a screen size of 1028x800.
- * - Terminal coordinates are calculated as percentages of the screen size:
- *   - X-coordinate: range (0, 100)
- *   - Y-coordinate: range (0, 25)
- * - The terminal coordinates are displayed on the console and written as integers 
- *   to a file (`file_mouse_data`).
+ * @brief Listens for mouse events and processes them into terminal coordinates.
+ *
+ * This function continuously reads mouse data from the input device file descriptor
+ * and translates the relative movement into absolute screen coordinates. It maps
+ * these coordinates to a terminal coordinate space and writes them to a file.
+ *
+ * @param file_mouse_data Pointer to the file where terminal coordinates are logged.
+ * @param fd File descriptor of the mouse input device.
  */
 void ReadData(FILE* file_mouse_data, int fd);
 
